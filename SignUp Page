@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PathFinder — AI Internship Dashboard</title>
+    <meta name="description" content="AI-based Internship Recommendation Dashboard for PathFinder"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="bg-white text-slate-900 antialiased min-h-screen" style="font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'">
+    <!-- App Wrapper -->
+    <div id="app" class="min-h-screen">
+      <!-- SIGN UP VIEW -->
+      <section id="view-signup" class="min-h-screen">
+        <div class="relative min-h-screen flex">
+          <!-- Left Image/Brand Panel -->
+          <div class="hidden lg:flex w-1/2 bg-slate-50 border-r border-slate-200 items-center justify-center p-12">
+            <div class="max-w-md">
+              <div class="flex items-center gap-2 mb-6">
+                <div class="h-8 w-8 rounded-md bg-slate-900 text-white flex items-center justify-center text-sm font-semibold tracking-tight">PF</div>
+                <div class="text-slate-900 text-lg font-medium tracking-tight">PathFinder</div>
+              </div>
+              <h1 class="text-4xl tracking-tight font-semibold text-slate-900 mb-4">Launch your career with smart AI recommendations</h1>
+              <p class="text-slate-600 text-base leading-relaxed">
+                Discover internships tailored to your skills and goals. Track applications, get deadline alerts, and improve your profile with real-time insights.
+              </p>
+              <div class="mt-10 rounded-2xl overflow-hidden border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1974&auto=format&fit=crop" alt="Students collaborating" class="w-full h-72 object-cover"/>
+              </div>
+              <ul class="mt-8 space-y-3 text-sm text-slate-700">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="brain-circuit" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  AI-ranked opportunities and match scores
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="bell" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  Smart alerts for upcoming deadlines
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="bar-chart-3" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  Skill gap and progress analytics
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Right Form Panel -->
+          <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10">
+            <div class="w-full max-w-md">
+              <div class="flex items-center gap-2 mb-8 lg:hidden">
+                <div class="h-8 w-8 rounded-md bg-slate-900 text-white flex items-center justify-center text-sm font-semibold tracking-tight">PF</div>
+                <div class="text-slate-900 text-lg font-medium tracking-tight">PathFinder</div>
+              </div>
+
+              <div class="mb-6">
+                <h2 class="text-3xl tracking-tight font-semibold">Create your account</h2>
+                <p class="text-slate-600 mt-1 text-sm">Sign up to access your AI-powered internship workspace.</p>
+              </div>
+
+              <form id="signup-form" class="space-y-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-slate-700 mb-1">First name</label>
+                    <input type="text" required placeholder="Aarav" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 px-3 h-11 text-sm placeholder-slate-400"/>
+                  </div>
+                  <div>
+                    <label class="block text-sm text-slate-700 mb-1">Last name</label>
+                    <input type="text" required placeholder="Sharma" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 px-3 h-11 text-sm placeholder-slate-400"/>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm text-slate-700 mb-1">Email</label>
+                  <input type="email" required placeholder="you@example.com" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 px-3 h-11 text-sm placeholder-slate-400"/>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm text-slate-700 mb-1">Password</label>
+                    <div class="relative">
+                      <input id="signup-password" type="password" required placeholder="Create a password" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 pl-3 pr-10 h-11 text-sm placeholder-slate-400"/>
+                      <button type="button" id="toggle-signup-password" class="absolute inset-y-0 right-0 px-3 text-slate-500 hover:text-slate-700 focus:outline-none">
+                        <i data-lucide="eye" class="w-4 h-4" stroke-width="1.5"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm text-slate-700 mb-1">Confirm password</label>
+                    <input type="password" required placeholder="Re-enter password" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 px-3 h-11 text-sm placeholder-slate-400"/>
+                  </div>
+                </div>
+
+                <!-- Skills multi-select (custom) -->
+                <div class="relative">
+                  <label class="block text-sm text-slate-700 mb-1">Skills</label>
+                  <button type="button" id="skills-toggle" class="w-full flex items-center justify-between rounded-lg border border-slate-300 hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 px-3 h-11 text-sm">
+                    <span id="skills-summary" class="text-slate-500">Select skills</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                  </button>
+                  <div id="skills-menu" class="hidden absolute z-20 mt-2 w-full bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                    <div class="grid grid-cols-2 gap-2">
+                      <!-- Custom checkboxes -->
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="Product Management" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">Product Management</span>
+                      </label>
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="User Research" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">User Research</span>
+                      </label>
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="Data Analysis" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">Data Analysis</span>
+                      </label>
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="SQL" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">SQL</span>
+                      </label>
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="A/B Testing" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">A/B Testing</span>
+                      </label>
+                      <label class="flex items-center gap-2 px-2 py-2 rounded-md hover:bg-slate-50 cursor-pointer">
+                        <input type="checkbox" value="Figma" class="peer sr-only"/>
+                        <span class="w-4 h-4 rounded border border-slate-300 peer-checked:bg-slate-900 peer-checked:border-slate-900 inline-flex items-center justify-center">
+                          <svg viewBox="0 0 24 24" class="w-3 h-3 opacity-0 peer-checked:opacity-100"><path d="M20 6 9 17l-5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="text-sm text-slate-700">Figma</span>
+                      </label>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 mt-2 border-t border-slate-200">
+                      <button type="button" id="skills-clear" class="text-xs text-slate-600 hover:text-slate-900">Clear</button>
+                      <button type="button" id="skills-apply" class="text-xs px-3 py-1.5 rounded-md bg-slate-900 text-white hover:bg-slate-800">Apply</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <input id="terms" type="checkbox" class="mt-1 w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                  <label for="terms" class="text-sm text-slate-700">I agree to the Terms and Privacy Policy.</label>
+                </div>
+
+                <button type="submit" class="w-full h-11 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10">
+                  Create account
+                </button>
+                <p class="text-xs text-slate-500 text-center">Already have an account? <a href="#signin" class="text-slate-900 hover:underline">Sign in</a></p>
+              </form>
+
+              <!-- Small trust bar -->
+              <div class="mt-8 grid grid-cols-3 gap-4 items-center">
+                <div class="h-8 rounded-md border border-slate-200 text-slate-700 text-xs flex items-center justify-center tracking-tight">EDU</div>
+                <div class="h-8 rounded-md border border-slate-200 text-slate-700 text-xs flex items-center justify-center tracking-tight">LABS</div>
+                <div class="h-8 rounded-md border border-slate-200 text-slate-700 text-xs flex items-center justify-center tracking-tight">CAREERS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGN IN VIEW (new) -->
+      <section id="view-signin" class="hidden min-h-screen">
+        <div class="relative min-h-screen flex">
+          <!-- Left Image/Brand Panel (kept consistent) -->
+          <div class="hidden lg:flex w-1/2 bg-slate-50 border-r border-slate-200 items-center justify-center p-12">
+            <div class="max-w-md">
+              <div class="flex items-center gap-2 mb-6">
+                <div class="h-8 w-8 rounded-md bg-slate-900 text-white flex items-center justify-center text-sm font-semibold tracking-tight">PF</div>
+                <div class="text-slate-900 text-lg font-medium tracking-tight">PathFinder</div>
+              </div>
+              <h1 class="text-4xl tracking-tight font-semibold text-slate-900 mb-4">Welcome back</h1>
+              <p class="text-slate-600 text-base leading-relaxed">
+                Sign in to continue your internship search, view recommendations, and manage your applications.
+              </p>
+              <div class="mt-10 rounded-2xl overflow-hidden border border-slate-200">
+                <img src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?q=80&w=1974&auto=format&fit=crop" alt="Workspace" class="w-full h-72 object-cover"/>
+              </div>
+              <ul class="mt-8 space-y-3 text-sm text-slate-700">
+                <li class="flex items-center gap-2">
+                  <i data-lucide="lock" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  Secure account access
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  Personalized recommendations
+                </li>
+                <li class="flex items-center gap-2">
+                  <i data-lucide="chart-line" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                  Track application progress
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- Right Form Panel -->
+          <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10">
+            <div class="w-full max-w-md">
+              <div class="flex items-center gap-2 mb-8 lg:hidden">
+                <div class="h-8 w-8 rounded-md bg-slate-900 text-white flex items-center justify-center text-sm font-semibold tracking-tight">PF</div>
+                <div class="text-slate-900 text-lg font-medium tracking-tight">PathFinder</div>
+              </div>
+
+              <div class="mb-6">
+                <h2 class="text-3xl tracking-tight font-semibold">Sign in</h2>
+                <p class="text-slate-600 mt-1 text-sm">Access your internship workspace.</p>
+              </div>
+
+              <form id="signin-form" class="space-y-5">
+                <div>
+                  <label class="block text-sm text-slate-700 mb-1">Email</label>
+                  <input type="email" required placeholder="you@example.com" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 px-3 h-11 text-sm placeholder-slate-400"/>
+                </div>
+                <div>
+                  <label class="block text-sm text-slate-700 mb-1">Password</label>
+                  <div class="relative">
+                    <input id="signin-password" type="password" required placeholder="Enter your password" class="w-full rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 pl-3 pr-10 h-11 text-sm placeholder-slate-400"/>
+                    <button type="button" id="toggle-signin-password" class="absolute inset-y-0 right-0 px-3 text-slate-500 hover:text-slate-700 focus:outline-none">
+                      <i data-lucide="eye" class="w-4 h-4" stroke-width="1.5"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <div></div>
+                  <a href="#" class="text-xs text-slate-600 hover:text-slate-900">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="w-full h-11 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900/10">
+                  Sign in
+                </button>
+                <p class="text-xs text-slate-500 text-center">Don’t have an account? <a href="#signup" class="text-slate-900 hover:underline">Create account</a></p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DASHBOARD VIEW -->
+      <section id="view-dashboard" class="hidden min-h-screen">
+        <!-- Top Navbar -->
+        <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-slate-200">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="h-16 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <button id="sidebar-toggle" class="p-2 rounded-md border border-slate-200 hover:border-slate-300 hover:bg-slate-50 focus:outline-none">
+                  <i data-lucide="panel-left" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                </button>
+                <div class="h-8 w-8 rounded-md bg-slate-900 text-white flex items-center justify-center text-sm font-semibold tracking-tight">PF</div>
+                <nav class="hidden md:flex items-center gap-1 ml-2">
+                  <a href="#" class="px-3 py-2 rounded-md text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900">Home</a>
+                  <a href="#" class="px-3 py-2 rounded-md text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900">Internship Finder</a>
+                  <a href="#" class="px-3 py-2 rounded-md text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900">Recommendations</a>
+                  <a href="#" class="px-3 py-2 rounded-md text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900">My Applications</a>
+                  <a href="#" class="px-3 py-2 rounded-md text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900">Profile</a>
+                </nav>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="relative hidden sm:block">
+                  <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" stroke-width="1.5"></i>
+                  <input id="global-search" type="text" placeholder="Search internships..." class="pl-9 pr-3 h-10 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 text-sm w-72"/>
+                </div>
+                <button class="relative p-2 rounded-md border border-slate-200 hover:bg-slate-50">
+                  <i data-lucide="bell" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                  <span class="absolute -top-1 -right-1 h-5 min-w-[20px] px-1 rounded-full bg-slate-900 text-white text-[10px] flex items-center justify-center">3</span>
+                </button>
+                <div class="relative">
+                  <button id="profile-toggle" class="flex items-center gap-3 rounded-lg border border-slate-200 hover:bg-slate-50 px-2 py-1.5">
+                    <img src="https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=1000&auto=format&fit=crop" class="w-8 h-8 rounded-full object-cover" alt="Profile"/>
+                    <span class="hidden sm:block text-sm text-slate-700">Aarav</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                  </button>
+                  <div id="profile-menu" class="hidden absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-50 text-sm text-slate-700">
+                      <i data-lucide="user" class="w-4 h-4" stroke-width="1.5"></i>
+                      View Profile
+                    </a>
+                    <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-50 text-sm text-slate-700">
+                      <i data-lucide="settings" class="w-4 h-4" stroke-width="1.5"></i>
+                      Settings
+                    </a>
+                    <button id="signout" class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-50 text-sm text-slate-700">
+                      <i data-lucide="log-out" class="w-4 h-4" stroke-width="1.5"></i>
+                      Sign out
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Layout -->
+        <div class="flex">
+          <!-- Sidebar -->
+          <aside id="sidebar" class="hidden md:flex flex-col shrink-0 transition-all duration-200 w-72 border-r border-slate-200">
+            <nav class="p-3 space-y-1">
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">
+                <i data-lucide="home" class="w-5 h-5" stroke-width="1.5"></i>
+                <span class="text-sm">Overview</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">
+                <i data-lucide="sparkles" class="w-5 h-5" stroke-width="1.5"></i>
+                <span class="text-sm">Recommendations</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">
+                <i data-lucide="clipboard-list" class="w-5 h-5" stroke-width="1.5"></i>
+                <span class="text-sm">Applied Internships</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">
+                <i data-lucide="bookmark" class="w-5 h-5" stroke-width="1.5"></i>
+                <span class="text-sm">Saved Internships</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-50 text-slate-700">
+                <i data-lucide="bell" class="w-5 h-5" stroke-width="1.5"></i>
+                <span class="text-sm">Notifications</span>
+              </button>
+            </nav>
+            <div class="mt-auto p-3 border-t border-slate-200">
+              <div class="p-3 rounded-lg bg-slate-50 border border-slate-200">
+                <div class="flex items-center justify-between">
+                  <div class="text-sm text-slate-700">AI Tips</div>
+                  <i data-lucide="robot" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                </div>
+                <p class="mt-1 text-xs text-slate-600">Boost your match by adding 2 more skills.</p>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Content -->
+          <main class="flex-1">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+              <!-- Title + Filters -->
+              <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                <div>
+                  <h1 class="text-2xl sm:text-3xl tracking-tight font-semibold">My Internship Workspace</h1>
+                  <p class="text-slate-600 text-sm mt-1">Curated recommendations and application progress at a glance.</p>
+                </div>
+                <!-- Filters -->
+                <div class="grid grid-cols-2 sm:flex gap-2">
+                  <!-- Skills filter -->
+                  <div class="relative">
+                    <button type="button" data-filter="skills" class="filter-btn flex items-center gap-2 px-3 h-10 rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-sm">
+                      <i data-lucide="badge-check" class="w-4 h-4 text-slate-600" stroke-width="1.5"></i>
+                      Skills
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                    </button>
+                    <div class="filter-menu hidden absolute z-20 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                      <div class="flex flex-wrap gap-2 p-2">
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">PM</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">SQL</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">Analytics</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">User Research</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">Excel</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">Figma</button>
+                      </div>
+                      <div class="flex items-center justify-between pt-2 mt-2 border-t border-slate-200">
+                        <button class="text-xs text-slate-600 hover:text-slate-900">Reset</button>
+                        <button class="text-xs px-3 py-1.5 rounded-md bg-slate-900 text-white hover:bg-slate-800">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Location filter -->
+                  <div class="relative">
+                    <button type="button" data-filter="location" class="filter-btn flex items-center gap-2 px-3 h-10 rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-sm">
+                      <i data-lucide="map-pin" class="w-4 h-4 text-slate-600" stroke-width="1.5"></i>
+                      Location
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                    </button>
+                    <div class="filter-menu hidden absolute z-20 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                      <div class="p-2 space-y-1">
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Remote</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Mumbai</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Delhi</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Bengaluru</span>
+                        </label>
+                      </div>
+                      <div class="flex items-center justify-between pt-2 mt-2 border-t border-slate-200">
+                        <button class="text-xs text-slate-600 hover:text-slate-900">Reset</button>
+                        <button class="text-xs px-3 py-1.5 rounded-md bg-slate-900 text-white hover:bg-slate-800">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Duration filter -->
+                  <div class="relative">
+                    <button type="button" data-filter="duration" class="filter-btn flex items-center gap-2 px-3 h-10 rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-sm">
+                      <i data-lucide="calendar" class="w-4 h-4 text-slate-600" stroke-width="1.5"></i>
+                      Duration
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                    </button>
+                    <div class="filter-menu hidden absolute z-20 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                      <div class="p-2 grid grid-cols-2 gap-2">
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">1-2 mo</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">3-4 mo</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">5-6 mo</button>
+                        <button class="px-2.5 py-1.5 text-xs rounded-md border border-slate-200 hover:bg-slate-50">6+ mo</button>
+                      </div>
+                      <div class="flex items-center justify-between pt-2 mt-2 border-t border-slate-200">
+                        <button class="text-xs text-slate-600 hover:text-slate-900">Reset</button>
+                        <button class="text-xs px-3 py-1.5 rounded-md bg-slate-900 text-white hover:bg-slate-800">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Domain filter -->
+                  <div class="relative">
+                    <button type="button" data-filter="domain" class="filter-btn flex items-center gap-2 px-3 h-10 rounded-lg border border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-sm">
+                      <i data-lucide="grid" class="w-4 h-4 text-slate-600" stroke-width="1.5"></i>
+                      Domain
+                      <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500" stroke-width="1.5"></i>
+                    </button>
+                    <div class="filter-menu hidden absolute z-20 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-lg p-2">
+                      <div class="p-2 space-y-1">
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Product</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Design</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Data</span>
+                        </label>
+                        <label class="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer">
+                          <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"/>
+                          <span class="text-sm text-slate-700">Marketing</span>
+                        </label>
+                      </div>
+                      <div class="flex items-center justify-between pt-2 mt-2 border-t border-slate-200">
+                        <button class="text-xs text-slate-600 hover:text-slate-900">Reset</button>
+                        <button class="text-xs px-3 py-1.5 rounded-md bg-slate-900 text-white hover:bg-slate-800">Apply</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Widgets Grid -->
+              <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <!-- Recommended Internships -->
+                <div class="lg:col-span-2 rounded-2xl border border-slate-200 bg-white">
+                  <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <i data-lucide="sparkles" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                      <h2 class="text-lg tracking-tight font-medium">Recommended Internships</h2>
+                    </div>
+                    <button class="text-xs px-2.5 py-1.5 rounded-md border border-slate-200 hover:bg-slate-50">Refresh</button>
+                  </div>
+                  <ul class="p-4 space-y-3">
+                    <!-- Item -->
+                    <li class="p-3 rounded-xl border border-slate-200 hover:border-slate-300 transition-colors">
+                      <div class="flex items-start gap-3">
+                        <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-medium tracking-tight">AL</div>
+                        <div class="flex-1">
+                          <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                              <div class="text-sm font-medium text-slate-900">Associate PM Intern</div>
+                              <div class="text-xs text-slate-600">Alpha Labs • Remote • 3 months</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                              <span class="text-xs text-slate-600">Match</span>
+                              <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-2 bg-slate-900 rounded-full" style="width: 86%"></div>
+                              </div>
+                              <span class="text-xs text-slate-900 font-medium">86%</span>
+                            </div>
+                          </div>
+                          <div class="mt-2 flex flex-wrap gap-1.5">
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">User Research</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">SQL</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">A/B Testing</span>
+                          </div>
+                        </div>
+                        <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                          <i data-lucide="bookmark-plus" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                        </button>
+                      </div>
+                    </li>
+                    <li class="p-3 rounded-xl border border-slate-200 hover:border-slate-300 transition-colors">
+                      <div class="flex items-start gap-3">
+                        <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-medium tracking-tight">VN</div>
+                        <div class="flex-1">
+                          <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                              <div class="text-sm font-medium text-slate-900">Product Analyst Intern</div>
+                              <div class="text-xs text-slate-600">VectoNet • Bengaluru • 6 months</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                              <span class="text-xs text-slate-600">Match</span>
+                              <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-2 bg-slate-900 rounded-full" style="width: 91%"></div>
+                              </div>
+                              <span class="text-xs text-slate-900 font-medium">91%</span>
+                            </div>
+                          </div>
+                          <div class="mt-2 flex flex-wrap gap-1.5">
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">Analytics</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">SQL</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">Excel</span>
+                          </div>
+                        </div>
+                        <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                          <i data-lucide="bookmark-plus" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                        </button>
+                      </div>
+                    </li>
+                    <li class="p-3 rounded-xl border border-slate-200 hover:border-slate-300 transition-colors">
+                      <div class="flex items-start gap-3">
+                        <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-medium tracking-tight">ZT</div>
+                        <div class="flex-1">
+                          <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                              <div class="text-sm font-medium text-slate-900">PM Intern - Growth</div>
+                              <div class="text-xs text-slate-600">Zentio • Delhi • 4 months</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                              <span class="text-xs text-slate-600">Match</span>
+                              <div class="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-2 bg-slate-900 rounded-full" style="width: 78%"></div>
+                              </div>
+                              <span class="text-xs text-slate-900 font-medium">78%</span>
+                            </div>
+                          </div>
+                          <div class="mt-2 flex flex-wrap gap-1.5">
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">PM</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">User Research</span>
+                            <span class="px-2 py-1 rounded-md bg-slate-50 border border-slate-200 text-[11px]">Figma</span>
+                          </div>
+                        </div>
+                        <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                          <i data-lucide="bookmark-plus" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Active Applications -->
+                <div class="rounded-2xl border border-slate-200 bg-white">
+                  <div class="px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+                    <i data-lucide="clipboard-list" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                    <h2 class="text-lg tracking-tight font-medium">Active Applications</h2>
+                  </div>
+                  <ul class="p-4 space-y-3">
+                    <li class="p-3 rounded-xl border border-slate-200">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="text-sm font-medium text-slate-900">Associate PM — NeoBank</div>
+                          <div class="text-xs text-slate-600">Applied 2d ago</div>
+                        </div>
+                        <span class="px-2 py-1 rounded-md text-[11px] border border-slate-200 text-slate-700">Applied</span>
+                      </div>
+                    </li>
+                    <li class="p-3 rounded-xl border border-slate-200">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="text-sm font-medium text-slate-900">Growth Analyst — HyperCart</div>
+                          <div class="text-xs text-slate-600">Updated 1d ago</div>
+                        </div>
+                        <span class="px-2 py-1 rounded-md text-[11px] border border-emerald-200 text-emerald-700 bg-emerald-50">Shortlisted</span>
+                      </div>
+                    </li>
+                    <li class="p-3 rounded-xl border border-slate-200">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <div class="text-sm font-medium text-slate-900">Product Intern — Syncly</div>
+                          <div class="text-xs text-slate-600">Updated 4d ago</div>
+                        </div>
+                        <span class="px-2 py-1 rounded-md text-[11px] border border-red-200 text-red-700 bg-red-50">Rejected</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Skill Match Analysis -->
+                <div class="rounded-2xl border border-slate-200 bg-white">
+                  <div class="px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                    <h2 class="text-lg tracking-tight font-medium">Skill Match Analysis</h2>
+                  </div>
+                  <div class="p-4 space-y-4">
+                    <div>
+                      <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-700">Core PM</span>
+                        <span class="text-slate-900 font-medium">82%</span>
+                      </div>
+                      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-1">
+                        <div class="h-2 bg-slate-900 rounded-full" style="width:82%"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-700">Analytics</span>
+                        <span class="text-slate-900 font-medium">74%</span>
+                      </div>
+                      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-1">
+                        <div class="h-2 bg-slate-900 rounded-full" style="width:74%"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-700">Design</span>
+                        <span class="text-slate-900 font-medium">65%</span>
+                      </div>
+                      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-1">
+                        <div class="h-2 bg-slate-900 rounded-full" style="width:65%"></div>
+                      </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200">
+                      <div class="h-56">
+                        <div class="w-full h-full">
+                          <div class="w-full h-full">
+                            <!-- Canvas wrapper to avoid infinite growth bug -->
+                            <div class="w-full h-full">
+                              <canvas id="skillsChart"></canvas>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="mt-2 text-xs text-slate-600">Tip: Strengthen SQL and Experimentation to cross 80% overall match.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Upcoming Deadlines -->
+                <div class="rounded-2xl border border-slate-200 bg-white">
+                  <div class="px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+                    <i data-lucide="calendar-days" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                    <h2 class="text-lg tracking-tight font-medium">Upcoming Deadlines</h2>
+                  </div>
+                  <div class="p-4">
+                    <div id="deadline-grid" class="grid grid-cols-7 gap-2"></div>
+                    <div class="mt-3 space-y-2">
+                      <div class="flex items-center gap-2 text-xs text-slate-600">
+                        <span class="w-2 h-2 rounded-full bg-slate-900"></span> Application deadline
+                      </div>
+                      <div class="text-xs text-slate-600">Showing next 7 days</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Top Opportunities -->
+                <div class="rounded-2xl border border-slate-200 bg-white">
+                  <div class="px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                    <h2 class="text-lg tracking-tight font-medium">Top Opportunities</h2>
+                  </div>
+                  <ul class="p-4 space-y-3">
+                    <li class="p-3 rounded-xl border border-slate-200 flex items-start gap-3">
+                      <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-medium tracking-tight">HD</div>
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <div class="text-sm font-medium text-slate-900">Product Strategy Intern — Heliodor</div>
+                          <span class="px-2 py-1 rounded-md text-[10px] border border-amber-200 text-amber-800 bg-amber-50">High Demand</span>
+                          <span class="px-2 py-1 rounded-md text-[10px] border border-emerald-200 text-emerald-800 bg-emerald-50">Best Match</span>
+                        </div>
+                        <div class="text-xs text-slate-600 mt-1">Delhi • 5 months • Stipend ₹25k</div>
+                      </div>
+                      <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                        <i data-lucide="bookmark" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                      </button>
+                    </li>
+                    <li class="p-3 rounded-xl border border-slate-200 flex items-start gap-3">
+                      <div class="h-10 w-10 rounded-lg bg-slate-900 text-white flex items-center justify-center text-xs font-medium tracking-tight">TR</div>
+                      <div class="flex-1">
+                        <div class="flex items-center gap-2">
+                          <div class="text-sm font-medium text-slate-900">Growth PM Intern — Trilo</div>
+                          <span class="px-2 py-1 rounded-md text-[10px] border border-fuchsia-200 text-fuchsia-800 bg-fuchsia-50">Trending</span>
+                        </div>
+                        <div class="text-xs text-slate-600 mt-1">Remote • 3 months • Stipend ₹15k</div>
+                      </div>
+                      <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                        <i data-lucide="bookmark" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Internship Table -->
+              <div class="mt-6 rounded-2xl border border-slate-200 bg-white overflow-hidden">
+                <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <i data-lucide="table" class="w-5 h-5 text-slate-700" stroke-width="1.5"></i>
+                    <h2 class="text-lg tracking-tight font-medium">Internship Listings</h2>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="relative hidden sm:block">
+                      <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" stroke-width="1.5"></i>
+                      <input type="text" placeholder="Search title or company..." class="pl-9 pr-3 h-10 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-300 text-sm w-64"/>
+                    </div>
+                    <button class="px-2.5 py-1.5 rounded-md border border-slate-200 text-xs hover:bg-slate-50 flex items-center gap-1">
+                      <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i> Advanced
+                    </button>
+                  </div>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-slate-50 border-b border-slate-200">
+                      <tr class="text-left text-slate-700">
+                        <th class="px-4 py-3 font-medium">Internship</th>
+                        <th class="px-4 py-3 font-medium">Company</th>
+                        <th class="px-4 py-3 font-medium">Location</th>
+                        <th class="px-4 py-3 font-medium">Stipend</th>
+                        <th class="px-4 py-3 font-medium">Duration</th>
+                        <th class="px-4 py-3 font-medium">Skill Match</th>
+                        <th class="px-4 py-3 font-medium"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="border-b border-slate-100 hover:bg-slate-50/60">
+                        <td class="px-4 py-3 text-slate-900">Associate PM Intern</td>
+                        <td class="px-4 py-3 text-slate-700">Alpha Labs</td>
+                        <td class="px-4 py-3 text-slate-700">Remote</td>
+                        <td class="px-4 py-3 text-slate-700">₹20k</td>
+                        <td class="px-4 py-3 text-slate-700">3 mo</td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <div class="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                              <div class="h-2 bg-slate-900 rounded-full" style="width: 86%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-slate-900">86%</span>
+                          </div>
+                        </td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 rounded-md bg-slate-900 text-white text-xs hover:bg-slate-800">Apply</button>
+                            <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                              <i data-lucide="bookmark" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="border-b border-slate-100 hover:bg-slate-50/60">
+                        <td class="px-4 py-3 text-slate-900">Product Analyst Intern</td>
+                        <td class="px-4 py-3 text-slate-700">VectoNet</td>
+                        <td class="px-4 py-3 text-slate-700">Bengaluru</td>
+                        <td class="px-4 py-3 text-slate-700">₹18k</td>
+                        <td class="px-4 py-3 text-slate-700">6 mo</td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <div class="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                              <div class="h-2 bg-slate-900 rounded-full" style="width: 91%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-slate-900">91%</span>
+                          </div>
+                        </td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 rounded-md bg-slate-900 text-white text-xs hover:bg-slate-800">Apply</button>
+                            <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                              <i data-lucide="bookmark" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="hover:bg-slate-50/60">
+                        <td class="px-4 py-3 text-slate-900">PM Intern - Growth</td>
+                        <td class="px-4 py-3 text-slate-700">Zentio</td>
+                        <td class="px-4 py-3 text-slate-700">Delhi</td>
+                        <td class="px-4 py-3 text-slate-700">₹22k</td>
+                        <td class="px-4 py-3 text-slate-700">4 mo</td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <div class="w-24 h-2 bg-slate-100 rounded-full overflow-hidden">
+                              <div class="h-2 bg-slate-900 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <span class="text-xs font-medium text-slate-900">78%</span>
+                          </div>
+                        </td>
+                        <td class="px-4 py-3">
+                          <div class="flex items-center gap-2">
+                            <button class="px-3 py-1.5 rounded-md bg-slate-900 text-white text-xs hover:bg-slate-800">Apply</button>
+                            <button class="p-2 rounded-md border border-slate-200 hover:bg-slate-50" title="Save">
+                              <i data-lucide="bookmark" class="w-4 h-4 text-slate-700" stroke-width="1.5"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="px-4 py-3 border-t border-slate-200 flex items-center justify-between">
+                  <div class="text-xs text-slate-600">Showing 1–3 of 42 results</div>
+                  <div class="flex items-center gap-2">
+                    <button class="px-2.5 py-1.5 rounded-md border border-slate-200 text-xs hover:bg-slate-50">Previous</button>
+                    <button class="px-2.5 py-1.5 rounded-md border border-slate-200 text-xs hover:bg-slate-50">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+
+        <!-- Mobile bottom bar -->
+        <nav class="md:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200">
+          <div class="grid grid-cols-5">
+            <button class="flex flex-col items-center justify-center py-2 text-slate-700">
+              <i data-lucide="home" class="w-5 h-5" stroke-width="1.5"></i>
+              <span class="text-[10px]">Overview</span>
+            </button>
+            <button class="flex flex-col items-center justify-center py-2 text-slate-700">
+              <i data-lucide="sparkles" class="w-5 h-5" stroke-width="1.5"></i>
+              <span class="text-[10px]">Recs</span>
+            </button>
+            <button class="flex flex-col items-center justify-center py-2 text-slate-700">
+              <i data-lucide="clipboard-list" class="w-5 h-5" stroke-width="1.5"></i>
+              <span class="text-[10px]">Applied</span>
+            </button>
+            <button class="flex flex-col items-center justify-center py-2 text-slate-700">
+              <i data-lucide="bookmark" class="w-5 h-5" stroke-width="1.5"></i>
+              <span class="text-[10px]">Saved</span>
+            </button>
+            <button class="flex flex-col items-center justify-center py-2 text-slate-700">
+              <i data-lucide="bell" class="w-5 h-5" stroke-width="1.5"></i>
+              <span class="text-[10px]">Alerts</span>
+            </button>
+          </div>
+        </nav>
+      </section>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-4 right-4 z-50 hidden">
+      <div class="bg-slate-900 text-white text-sm rounded-lg shadow-lg px-3 py-2 flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400" stroke-width="1.5"></i>
+        <span id="toast-text">Saved to bookmarks</span>
+      </div>
+    </div>
+
+    <script>
+      // Icon init
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) { lucide.createIcons({ attrs: { strokeWidth: 1.5 } }); }
+      });
+
+      // View elements
+      const viewSignup = document.getElementById('view-signup');
+      const viewSignin = document.getElementById('view-signin');
+      const viewDashboard = document.getElementById('view-dashboard');
+
+      function showView(view) {
+        // Hide all
+        viewSignup.classList.add('hidden');
+        viewSignin.classList.add('hidden');
+        viewDashboard.classList.add('hidden');
+        // Show selected
+        if (view === 'dashboard') {
+          viewDashboard.classList.remove('hidden');
+        } else if (view === 'signin') {
+          viewSignin.classList.remove('hidden');
+        } else {
+          viewSignup.classList.remove('hidden');
+        }
+        if (window.lucide) { lucide.createIcons({ attrs: { strokeWidth: 1.5 } }); }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Hash routing
+      function syncFromHash() {
+        switch (location.hash) {
+          case '#dashboard':
+            showView('dashboard'); break;
+          case '#signin':
+            showView('signin'); break;
+          case '#signup':
+          default:
+            showView('signup'); break;
+        }
+      }
+      window.addEventListener('hashchange', syncFromHash);
+      syncFromHash();
+
+      // Sign up form -> main website (dashboard)
+      const signupForm = document.getElementById('signup-form');
+      signupForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        location.hash = '#dashboard';
+        showView('dashboard');
+      });
+
+      // Sign in form -> main website (dashboard)
+      const signinForm = document.getElementById('signin-form');
+      signinForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        location.hash = '#dashboard';
+        showView('dashboard');
+      });
+
+      // Sign out -> back to signup
+      document.getElementById('signout')?.addEventListener('click', () => {
+        location.hash = '#signup';
+        showView('signup');
+      });
+
+      // Password toggles
+      const passInput = document.getElementById('signup-password');
+      const passToggle = document.getElementById('toggle-signup-password');
+      passToggle?.addEventListener('click', () => {
+        passInput.type = passInput.type === 'password' ? 'text' : 'password';
+        passToggle.innerHTML = passInput.type === 'password'
+          ? '<i data-lucide="eye" class="w-4 h-4" stroke-width="1.5"></i>'
+          : '<i data-lucide="eye-off" class="w-4 h-4" stroke-width="1.5"></i>';
+        if (window.lucide) { lucide.createIcons({ attrs: { strokeWidth: 1.5 } }); }
+      });
+
+      const signinPassInput = document.getElementById('signin-password');
+      const signinPassToggle = document.getElementById('toggle-signin-password');
+      signinPassToggle?.addEventListener('click', () => {
+        signinPassInput.type = signinPassInput.type === 'password' ? 'text' : 'password';
+        signinPassToggle.innerHTML = signinPassInput.type === 'password'
+          ? '<i data-lucide="eye" class="w-4 h-4" stroke-width="1.5"></i>'
+          : '<i data-lucide="eye-off" class="w-4 h-4" stroke-width="1.5"></i>';
+        if (window.lucide) { lucide.createIcons({ attrs: { strokeWidth: 1.5 } }); }
+      });
+
+      // Skills multi-select in signup
+      const skillsToggle = document.getElementById('skills-toggle');
+      const skillsMenu = document.getElementById('skills-menu');
+      const skillsSummary = document.getElementById('skills-summary');
+      const skillsClear = document.getElementById('skills-clear');
+      const skillsApply = document.getElementById('skills-apply');
+
+      function updateSkillsSummary() {
+        const selected = [...skillsMenu.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value);
+        if (selected.length === 0) {
+          skillsSummary.textContent = 'Select skills';
+          skillsSummary.classList.remove('text-slate-900');
+          skillsSummary.classList.add('text-slate-500');
+        } else {
+          skillsSummary.textContent = selected.join(', ');
+          skillsSummary.classList.remove('text-slate-500');
+          skillsSummary.classList.add('text-slate-900');
+        }
+      }
+
+      skillsToggle?.addEventListener('click', () => {
+        skillsMenu.classList.toggle('hidden');
+      });
+      skillsClear?.addEventListener('click', () => {
+        skillsMenu.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+        updateSkillsSummary();
+      });
+      skillsApply?.addEventListener('click', () => {
+        updateSkillsSummary();
+        skillsMenu.classList.add('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (skillsMenu && !skillsMenu.contains(e.target) && !skillsToggle.contains(e.target)) {
+          skillsMenu.classList.add('hidden');
+        }
+      });
+
+      // Navbar profile dropdown
+      const profileToggle = document.getElementById('profile-toggle');
+      const profileMenu = document.getElementById('profile-menu');
+      profileToggle?.addEventListener('click', () => {
+        profileMenu.classList.toggle('hidden');
+      });
+      document.addEventListener('click', (e) => {
+        if (profileMenu && !profileMenu.contains(e.target) && !profileToggle.contains(e.target)) {
+          profileMenu.classList.add('hidden');
+        }
+      });
+
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebar-toggle');
+      let sidebarCollapsed = false;
+      sidebarToggle?.addEventListener('click', () => {
+        if (!sidebar) return;
+        sidebarCollapsed = !sidebarCollapsed;
+        if (sidebarCollapsed) {
+          sidebar.classList.remove('w-72');
+          sidebar.classList.add('w-20');
+          [...sidebar.querySelectorAll('span')].forEach(el => el.classList.add('hidden'));
+        } else {
+          sidebar.classList.remove('w-20');
+          sidebar.classList.add('w-72');
+          [...sidebar.querySelectorAll('span')].forEach(el => el.classList.remove('hidden'));
+        }
+      });
+
+      // Filter popovers
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const filterMenus = document.querySelectorAll('.filter-menu');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const wrapper = e.currentTarget.parentElement;
+          const menu = wrapper.querySelector('.filter-menu');
+          filterMenus.forEach(m => { if (m !== menu) m.classList.add('hidden'); });
+          menu.classList.toggle('hidden');
+        });
+      });
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.filter-btn') || e.target.closest('.filter-menu');
+        if (!trigger) filterMenus.forEach(m => m.classList.add('hidden'));
+      });
+
+      // Charts
+      const skillsChartEl = document.getElementById('skillsChart');
+      if (skillsChartEl) {
+        new Chart(skillsChartEl, {
+          type: 'radar',
+          data: {
+            labels: ['Core PM', 'Analytics', 'Design', 'Comm', 'SQL', 'Experimentation'],
+            datasets: [{
+              label: 'Match',
+              data: [82, 74, 65, 80, 70, 62],
+              borderColor: '#0f172a',
+              backgroundColor: 'rgba(15, 23, 42, 0.08)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              r: {
+                angleLines:
